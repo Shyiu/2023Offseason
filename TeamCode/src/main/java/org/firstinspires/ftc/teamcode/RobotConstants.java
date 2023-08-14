@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Subsystems;
+package org.firstinspires.ftc.teamcode;
 
 final public class RobotConstants {
 
@@ -37,4 +37,7 @@ final public class RobotConstants {
     //Delivery Constants --> Find through testing
     final public static int armMaxPos = 0;
     final public static int armMinPos = 0;
+
+    //Camera Names
+    final public static String junctionCamera = "junction";
 }
