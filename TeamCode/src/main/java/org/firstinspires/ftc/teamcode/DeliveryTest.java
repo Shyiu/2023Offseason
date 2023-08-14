@@ -19,7 +19,7 @@ public class DeliveryTest extends LinearOpMode {
 
         while(opModeIsActive()) {
             delivery.moveArm(-gamepad1.left_stick_y);
-            delivery.turnArm(-gamepad1.right_stick_x*);
+            delivery.turnArm((int) -gamepad1.right_stick_x );
         }
 
 

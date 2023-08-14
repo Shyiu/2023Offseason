@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.RobotConstants;
+
 public class Lift {
 
     protected DcMotor leftMotor; //Testing Required to determine which one to reverse
@@ -22,7 +24,7 @@ public class Lift {
         rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        magnetSensor =hardwareMap.get(DigitalChannel.class, RobotConstants.magnetSensor);
+        magnetSensor = hardwareMap.get(DigitalChannel.class, RobotConstants.magnetSensor);
         magnetSensor.setMode(DigitalChannel.Mode.INPUT);
     }
 
