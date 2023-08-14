@@ -27,6 +27,9 @@ public class DeliveryTest extends LinearOpMode {
 
 
             telemetry.addData("Status", "Running");
+            telemetry.addData("Gamepad1 Left Stick y: ", -gamepad1.left_stick_x);
+            telemetry.addData("Right Servo ", delivery.getServoBase1Pos());
+            telemetry.addData("Left Servo ", delivery.getServoBase2Pos());
             telemetry.update();
         }
     }

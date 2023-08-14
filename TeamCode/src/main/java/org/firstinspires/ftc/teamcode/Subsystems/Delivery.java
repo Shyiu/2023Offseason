@@ -52,4 +52,12 @@ public class Delivery extends Claw {
         servoBase1.setPosition(0.5);
     }
 
+    public double getServoBase1Pos(){
+        return servoBase1.getPosition();
+    }
+
+    public double getServoBase2Pos(){
+        return servoBase2.getPosition();
+    }
+
 }
