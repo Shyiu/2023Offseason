@@ -15,8 +15,8 @@ final public class RobotConstants {
 
     //Delivery Hardware
     final public static String arm = "arm"; //EHUB Motor Port:
-    final public static String leftBase = "leftBase"; //EHUB Servo Port:
-    final public static String rightBase = "rightBase"; //EHUB Servo Port:
+    final public static String leftBase = "leftBase"; //CHUB Servo Port: 0
+    final public static String rightBase = "rightBase"; //CHUB Servo Port: 1
     final public static String joint = "joint"; //EHUB Servo Port:
     final public static String claw = "claw"; //CHUB Servo Port:
 

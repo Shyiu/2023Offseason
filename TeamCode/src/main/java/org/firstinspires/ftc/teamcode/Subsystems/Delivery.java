@@ -35,8 +35,8 @@ public class Delivery extends Claw {
         }
     }
 
-    public void turnArm(int degrees) {
-        double newPosition = 0; //Some math
+    public void turnArm(double power) {
+        double newPosition = (power+1)/2; //Some math
 
         servoBase1.setPosition(newPosition);
         servoBase2.setPosition(newPosition);
@@ -45,6 +45,11 @@ public class Delivery extends Claw {
     public void turnClaw(int degrees) {
         double newPosition = 0; //Some Math
         joint.setPosition(newPosition);
+    }
+
+    public void reset() {
+        servoBase2.setPosition(0.5);
+        servoBase1.setPosition(0.5);
     }
 
 }

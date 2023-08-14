@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Subsystems.Delivery;
 
+@TeleOp(name="Delivery Test", group="Test Code")
 public class DeliveryTest extends LinearOpMode {
 
     Delivery delivery;
@@ -15,13 +17,17 @@ public class DeliveryTest extends LinearOpMode {
 
         delivery = new Delivery(hardwareMap);
 
+        delivery.reset();
+
         waitForStart();
 
         while(opModeIsActive()) {
-            delivery.moveArm(-gamepad1.left_stick_y);
-            delivery.turnArm((int) -gamepad1.right_stick_x );
+            delivery.turnArm(-gamepad1.left_stick_x);
+
+
+
+            telemetry.addData("Status", "Running");
+            telemetry.update();
         }
-
-
     }
 }

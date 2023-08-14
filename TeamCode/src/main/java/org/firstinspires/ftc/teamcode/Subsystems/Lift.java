@@ -29,6 +29,8 @@ public class Lift {
     }
 
     public void setPower(double power) { //Positive is up and negative is down
+        leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         if (magnetSensor.getState()) {
             leftMotor.setPower(0);
@@ -48,6 +50,10 @@ public class Lift {
 
     //Position in encoder ticks
     public void setPosition(int position) {
+        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        leftMotor.setTargetPosition(position);
 
     }
 
