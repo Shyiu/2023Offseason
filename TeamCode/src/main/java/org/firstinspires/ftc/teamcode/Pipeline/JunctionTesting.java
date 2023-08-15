@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Pipeline;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -24,9 +25,9 @@ import java.util.ArrayList;
 
 //for dashboard
 @Config
+@Autonomous(name = "Junction Testing")
 public class JunctionTesting extends LinearOpMode {
     OpenCvCamera camera;
-    DcMotor frontLeft, frontRight, backLeft, backRight;
     RobotConstants robot = new RobotConstants();
     public static double speed = .3;
 
@@ -56,7 +57,8 @@ public class JunctionTesting extends LinearOpMode {
 
         waitForStart();
         while (!isStopRequested() && opModeIsActive()) {
-             telemetry.addData("Degree: ", detector.getDegree());
+            telemetry.addLine("what");
+            telemetry.addData("Degree: ", detector.getDegree());
         }
         camera.stopStreaming();
     }
