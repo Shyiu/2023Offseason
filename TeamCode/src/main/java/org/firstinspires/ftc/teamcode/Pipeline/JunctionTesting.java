@@ -45,20 +45,18 @@ public class JunctionTesting extends LinearOpMode {
             public void onOpened() {
                 camera.startStreaming(800, 448, OpenCvCameraRotation.UPRIGHT);
                 FtcDashboard.getInstance().startCameraStream(camera, 5);
-
             }
-
             @Override
             public void onError(int errorCode) {
 
             }
         });
         telemetry.setMsTransmissionInterval(50);
-
         waitForStart();
         while (!isStopRequested() && opModeIsActive()) {
             telemetry.addLine("what");
             telemetry.addData("Degree: ", detector.getDegree());
+            telemetry.update();
         }
         camera.stopStreaming();
     }
