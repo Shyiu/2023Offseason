@@ -1,6 +1,5 @@
-package org.firstinspires.ftc.teamcode.Pipeline;
+package org.firstinspires.ftc.teamcode.PipelineTesting;
 
-import com.acmerobotics.dashboard.config.Config;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.opencv.core.Core;
@@ -13,15 +12,12 @@ import org.openftc.easyopencv.OpenCvPipeline;
 
 import java.util.ArrayList;
 
-//for dashboard
-@Config
 public class JunctionDetection extends OpenCvPipeline {
-    Telemetry telemetry;
     Mat mat = new Mat();
 
-    static int width = 800;
-    static int height = 448;
-    static double[] degree = new double[]{0};
+    static int width = 640;
+    static int height = 480;
+    static double[] degree = new double[]{0.0};
     public static double PERCENT_COLOR_THRESHOLD = 0.4;
     public static double highHSVred = 50;
     public static double highHSVblue = 250;
@@ -30,9 +26,12 @@ public class JunctionDetection extends OpenCvPipeline {
     public static double lowHSVblue = 50;
     public static double lowHSVgreen = 50;
     static double multiplier = 2.55;
-    public static int boxes = 400;
-    public JunctionDetection(Telemetry t) { telemetry = t; }
+    public static int boxes = 60;
+    Telemetry telemetry;
 
+    public JunctionDetection(Telemetry telemetry) {
+        this.telemetry = telemetry;
+    }
     @Override
     public Mat processFrame(Mat input) {
         double incrementX = (double) width/boxes;
@@ -45,8 +44,9 @@ public class JunctionDetection extends OpenCvPipeline {
         Core.inRange(mat, lowHSV, highHSV, mat);
         Scalar colorStone = new Scalar(255, 0, 0);
         ArrayList<Double> degrees = new ArrayList<>();
-        double currentDegree = -90;
+        degrees.clear();
         degree[0] = 0;
+        double currentDegree = -90;
         //Adding "boxes" boxes to identify the angle of the junction infront of the camera.
         for (double i = incrementX; i <= width; i += incrementX){
             currentDegree += 180.0/boxes;
@@ -69,9 +69,9 @@ public class JunctionDetection extends OpenCvPipeline {
 
 
         Imgproc.cvtColor(mat, mat, Imgproc.COLOR_GRAY2RGB);
-//
+        telemetry.addData("degree", degree[0]);
+        telemetry.update();
 
-//
         return mat;
     }
 

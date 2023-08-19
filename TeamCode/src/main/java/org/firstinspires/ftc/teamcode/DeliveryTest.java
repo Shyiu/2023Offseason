@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -12,25 +14,24 @@ public class DeliveryTest extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        delivery = new Delivery(hardwareMap);
+        delivery = new Delivery(hardwareMap, Delivery.gameStages.AUTONOMOUS, telemetry);
 
-        delivery.reset();
 
         waitForStart();
 
-        while(opModeIsActive()) {
-            delivery.turnArm(-gamepad1.left_stick_x);
-
-
-
+        while(opModeIsActive() && !isStopRequested()) {
+//            delivery.asyncMoveToPosition(1000);
+            delivery.init();
             telemetry.addData("Status", "Running");
             telemetry.addData("Gamepad1 Left Stick y: ", -gamepad1.left_stick_x);
-            telemetry.addData("Right Servo ", delivery.getServoBase1Pos());
-            telemetry.addData("Left Servo ", delivery.getServoBase2Pos());
+
             telemetry.update();
+            break;
+
         }
     }
 }
