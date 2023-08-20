@@ -13,6 +13,7 @@ final public class RobotConstants {
     final public static String rightSlide = "rightMotor";  //CHUB Motor Port: 3
     final public static String magnetSensor = "magnetSensor"; //CHUB Digital Port:
 
+
     //Delivery Hardware
     final public static String arm = "arm"; //EHUB Motor Port:
     final public static String leftBase = "leftBase"; //CHUB Servo Port: 0
@@ -26,6 +27,7 @@ final public class RobotConstants {
 
     //Lift Constants --> Find through testing
     final public static int maxLiftPosition = 580;
+    final public static int minLiftPosition = 35;
     final public static int groundPosition = 0;
     final public static int lowPosition = 0;
     final public static int mediumPosition = 0;

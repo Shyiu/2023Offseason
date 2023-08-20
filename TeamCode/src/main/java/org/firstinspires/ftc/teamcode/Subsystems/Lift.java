@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
-
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -15,6 +13,13 @@ public class Lift {
     protected DcMotor rightMotor;
 
     //protected DigitalChannel magnetSensor;
+
+    public static double Kp;
+    public static double Ki;
+    public static double Kd;
+    public static double Kg;
+
+    private PIDFController PIDF;
 
     public Lift(HardwareMap hardwareMap) {
         leftMotor = hardwareMap.get(DcMotor.class, RobotConstants.leftSlide);
@@ -31,6 +36,8 @@ public class Lift {
 
         //magnetSensor = hardwareMap.get(DigitalChannel.class, RobotConstants.magnetSensor);
         //magnetSensor.setMode(DigitalChannel.Mode.INPUT);
+
+        PIDF = new PIDFController(Kp, Ki, Kd, Kg);
     }
 
     public void setPower(double power) { //Positive is up and negative is down
@@ -40,7 +47,7 @@ public class Lift {
         if (this.getPosition() > RobotConstants.maxLiftPosition && power > 0) {
             leftMotor.setPower(0);
             rightMotor.setPower(0);
-        } else if (this.getPosition() <= 100 && power < 0){
+        } else if (this.getPosition() <= RobotConstants.minLiftPosition && power < 0){
             leftMotor.setPower(0);
             rightMotor.setPower(0);
         } else {
@@ -55,12 +62,8 @@ public class Lift {
 
     //Position in encoder ticks
     public void setPosition(int position) {
-        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        leftMotor.setTargetPosition(position);
+        this.setPower(PIDF.update(position, this.getPosition()));
     }
 
 
 }
-
