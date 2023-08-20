@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -12,34 +14,33 @@ public class Lift {
     protected DcMotor leftMotor; //Testing Required to determine which one to reverse
     protected DcMotor rightMotor;
 
-    protected DigitalChannel magnetSensor;
+    //protected DigitalChannel magnetSensor;
 
     public Lift(HardwareMap hardwareMap) {
         leftMotor = hardwareMap.get(DcMotor.class, RobotConstants.leftSlide);
+        leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         rightMotor = hardwareMap.get(DcMotor.class, RobotConstants.rightSlide);
+        rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        magnetSensor = hardwareMap.get(DigitalChannel.class, RobotConstants.magnetSensor);
-        magnetSensor.setMode(DigitalChannel.Mode.INPUT);
+        //magnetSensor = hardwareMap.get(DigitalChannel.class, RobotConstants.magnetSensor);
+        //magnetSensor.setMode(DigitalChannel.Mode.INPUT);
     }
 
     public void setPower(double power) { //Positive is up and negative is down
         leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        if (magnetSensor.getState()) {
+        if (this.getPosition() > RobotConstants.maxLiftPosition && power > 0) {
             leftMotor.setPower(0);
             rightMotor.setPower(0);
-            leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        } else if (leftMotor.getCurrentPosition() > RobotConstants.maxLiftPosition) {
+        } else if (this.getPosition() <= 100 && power < 0){
             leftMotor.setPower(0);
             rightMotor.setPower(0);
         } else {
@@ -48,14 +49,18 @@ public class Lift {
         }
     }
 
+    public int getPosition() {
+       return (Math.abs(leftMotor.getCurrentPosition()) + Math.abs(rightMotor.getCurrentPosition()))/2;
+    }
+
     //Position in encoder ticks
     public void setPosition(int position) {
         leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         leftMotor.setTargetPosition(position);
-
     }
 
 
 }
+

@@ -9,8 +9,8 @@ final public class RobotConstants {
     final public static String bl = "backLeft";  //CHUB Motor Port:
 
     //Lift Hardware
-    final public static String leftSlide = "leftSlide";  //EHUB Motor Port:
-    final public static String rightSlide = "rightSlide";  //EHUB Motor Port:
+    final public static String leftSlide = "leftMotor";  //CHUB Motor Port: 2
+    final public static String rightSlide = "rightMotor";  //CHUB Motor Port: 3
     final public static String magnetSensor = "magnetSensor"; //CHUB Digital Port:
 
     //Delivery Hardware
@@ -25,9 +25,10 @@ final public class RobotConstants {
     final public static String intakeServo = "intakeServo";  //CHUB Servo Port:
 
     //Lift Constants --> Find through testing
-    final public static int maxLiftPosition = 0;
+    final public static int maxLiftPosition = 580;
     final public static int groundPosition = 0;
     final public static int lowPosition = 0;
+    final public static int mediumPosition = 0;
     final public static int highPosition = 0;
 
     //Claw Constants --> Find through testing

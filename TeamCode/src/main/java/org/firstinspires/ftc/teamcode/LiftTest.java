@@ -4,30 +4,30 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Subsystems.Delivery;
+import org.firstinspires.ftc.teamcode.Subsystems.Lift;
 
-@TeleOp(name="Delivery Test", group="Test Code")
-public class DeliveryTest extends LinearOpMode {
+@TeleOp(name="Lift Test", group="Test Code")
+public class LiftTest extends LinearOpMode {
 
-    Delivery delivery;
+    Lift lift;
 
     @Override
     public void runOpMode() throws InterruptedException {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        delivery = new Delivery(hardwareMap);
-
-        delivery.reset();
+        lift = new Lift(hardwareMap);
 
         waitForStart();
 
         while(opModeIsActive()) {
-            delivery.turnArm(-gamepad1.left_stick_x);
+            lift.setPower(-gamepad1.left_stick_y);
 
 
 
             telemetry.addData("Status", "Running");
-            telemetry.addData("Gamepad1 Left Stick y: ", -gamepad1.left_stick_x);
+            telemetry.addData("Gamepad1 Left Stick y: ", -gamepad1.left_stick_y);
+            telemetry.addData("Slide Position", lift.getPosition());
             telemetry.update();
         }
     }

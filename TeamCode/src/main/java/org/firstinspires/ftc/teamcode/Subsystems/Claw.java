@@ -21,8 +21,8 @@ public class Claw {
         servo.setPosition(RobotConstants.clawClosePos);
     }
 
-    public boolean isGrabbed() { //Needs implementation
-        return true;
+    public void reset() {
+        open();
     }
 
 }
