@@ -1,11 +1,7 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
-import androidx.annotation.RequiresFeature;
 
-import com.acmerobotics.dashboard.config.Config;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -143,9 +139,8 @@ public class Delivery extends Claw {
 
             timer.reset();
         }
-    else{
-        arm.setPower(0);
-        }
+        else{
+            arm.setPower(0);
         }
     }
-
+}
