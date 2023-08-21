@@ -24,7 +24,7 @@ public class ArmMotorTesting extends LinearOpMode {
         waitForStart();
 
         while(opModeIsActive()) {
-            arm.setPower(-(gamepad1.right_stick_y)/16.0);
+            arm.setPower(-(gamepad1.right_stick_y)/3.0);
 
             telemetry.addData("Status", "Running");
             telemetry.addData("Arm Position", arm.getCurrentPosition());
