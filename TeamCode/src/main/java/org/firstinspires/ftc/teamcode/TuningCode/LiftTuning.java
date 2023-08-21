@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.TuningCode;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Subsystems.Lift;
@@ -11,14 +12,14 @@ import org.firstinspires.ftc.teamcode.Subsystems.Lift;
 public class LiftTuning extends LinearOpMode {
 
     Lift lift;
-    public static int target;
+    public static int target = 300;
     boolean changed = false; //Outside of loop()
 
 
     @Override
     public void runOpMode() throws InterruptedException {
         FtcDashboard dashboard = FtcDashboard.getInstance();
-        telemetry = dashboard.getTelemetry();
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         lift = new Lift(hardwareMap);
 
@@ -26,17 +27,7 @@ public class LiftTuning extends LinearOpMode {
 
         while(opModeIsActive()){
 
-            if(gamepad1.a && !changed) {
-                if (lift.getPosition() <= 50) {
-                    lift.setPositionAndUpdate(target);
-                }
-                else {
-                    lift.setPower(0);
-                }
-                changed = true;
-            } else if(!gamepad1.a) {
-                changed = false;
-            }
+            lift.setPosition(target);
 
             telemetry.addData("position", lift.getPosition());
             telemetry.addData("target", target);

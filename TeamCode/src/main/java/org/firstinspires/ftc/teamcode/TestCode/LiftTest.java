@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Subsystems.Lift;
 
-@Disabled
+
 @TeleOp(name="Lift Test", group="Test Code")
 public class LiftTest extends LinearOpMode {
 
