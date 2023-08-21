@@ -28,7 +28,7 @@ public class LiftTuning extends LinearOpMode {
 
             if(gamepad1.a && !changed) {
                 if (lift.getPosition() <= 50) {
-                    lift.setPosition(target);
+                    lift.setPositionAndUpdate(target);
                 }
                 else {
                     lift.setPower(0);

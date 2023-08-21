@@ -14,34 +14,45 @@ public class Lift {
     protected DcMotor leftMotor; //Testing Required to determine which one to reverse
     protected DcMotor rightMotor;
 
-    //protected DigitalChannel magnetSensor;
+    protected DigitalChannel magnetSensor;
 
-    public static double Kp;
-    public static double Ki;
-    public static double Kd;
-    public static double Kg;
-
+    public static double Kp = 0.001;
+    public static double Ki = 0;
+    public static double Kd = 0;
+    public static double Kg = 0;
+    private static int targetPos;
     private PIDFController PIDF;
 
     public Lift(HardwareMap hardwareMap) {
         leftMotor = hardwareMap.get(DcMotor.class, RobotConstants.leftSlide);
-        leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         leftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         rightMotor = hardwareMap.get(DcMotor.class, RobotConstants.rightSlide);
-        rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        //magnetSensor = hardwareMap.get(DigitalChannel.class, RobotConstants.magnetSensor);
-        //magnetSensor.setMode(DigitalChannel.Mode.INPUT);
-
+        magnetSensor = hardwareMap.get(DigitalChannel.class, RobotConstants.magnetSensor);
+        magnetSensor.setMode(DigitalChannel.Mode.INPUT);
+        init();
         PIDF = new PIDFController(Kp, Ki, Kd, Kg);
     }
 
+    public void init(){
+        leftMotor.setPower(-.1);
+        rightMotor.setPower(-.1);
+        while(magnetSensor.getState() == false){
+            ;
+        }
+        this.setPower(0);
+        leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+    }
     public void setPower(double power) { //Positive is up and negative is down
         leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -64,8 +75,15 @@ public class Lift {
 
     //Position in encoder ticks
     public void setPosition(int position) {
+        targetPos = position;
+    }
+    public void update(){
+        this.setPower(PIDF.update(targetPos, this.getPosition()));
+    }
+    public void setPositionAndUpdate(int position){
         this.setPower(PIDF.update(position, this.getPosition()));
     }
+
 
 
 }

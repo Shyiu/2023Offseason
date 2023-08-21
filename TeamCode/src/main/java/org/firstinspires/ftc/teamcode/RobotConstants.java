@@ -11,7 +11,7 @@ final public class RobotConstants {
     //Lift Hardware
     final public static String leftSlide = "leftMotor";  //CHUB Motor Port: 2
     final public static String rightSlide = "rightMotor";  //CHUB Motor Port: 3
-    final public static String magnetSensor = "magnetSensor"; //CHUB Digital Port:
+    final public static String magnetSensor = "magnet_sensor"; //CHUB Digital Port: 1-2
 
 
     //Delivery Hardware
