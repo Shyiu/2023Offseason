@@ -20,7 +20,12 @@ public class Claw {
     public void close() {
         servo.setPosition(RobotConstants.clawClosePos);
     }
-
+    public void move(double position){
+        servo.setPosition(position);
+    }
+    public double getPosition(){
+        return servo.getPosition();
+    }
     public void reset() {
         open();
     }

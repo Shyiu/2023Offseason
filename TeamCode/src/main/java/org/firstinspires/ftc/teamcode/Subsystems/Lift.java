@@ -36,14 +36,15 @@ public class Lift {
 
         magnetSensor = hardwareMap.get(DigitalChannel.class, RobotConstants.magnetSensor);
         magnetSensor.setMode(DigitalChannel.Mode.INPUT);
-        init();
         PIDF = new PIDFController(Kp, Ki, Kd, Kg);
     }
-
+    public boolean getMagnet(){
+        return magnetSensor.getState();
+    }
     public void init(){
-        leftMotor.setPower(-.1);
-        rightMotor.setPower(-.1);
-        while(magnetSensor.getState() == false){
+        leftMotor.setPower(-.05);
+        rightMotor.setPower(-.05);
+        while(magnetSensor.getState() == true){
             ;
         }
         this.setPower(0);

@@ -11,8 +11,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Lift;
 public class LiftTuning extends LinearOpMode {
 
     Lift lift;
-    public static int target;
-    boolean changed = false; //Outside of loop()
+    public static int target = 300;
 
 
     @Override
@@ -25,18 +24,8 @@ public class LiftTuning extends LinearOpMode {
         waitForStart();
 
         while(opModeIsActive()){
+            lift.setPositionAndUpdate(target);
 
-            if(gamepad1.a && !changed) {
-                if (lift.getPosition() <= 50) {
-                    lift.setPositionAndUpdate(target);
-                }
-                else {
-                    lift.setPower(0);
-                }
-                changed = true;
-            } else if(!gamepad1.a) {
-                changed = false;
-            }
 
             telemetry.addData("position", lift.getPosition());
             telemetry.addData("target", target);

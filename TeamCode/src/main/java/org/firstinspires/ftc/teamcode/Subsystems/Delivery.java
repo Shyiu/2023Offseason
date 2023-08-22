@@ -10,20 +10,20 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.RobotConstants;
+
+import java.util.concurrent.TimeUnit;
+
 @Config
 public class Delivery extends Claw {
     Servo claw;
     DcMotorEx arm;
-    public enum gameStages {
-        TELE_OP,
-        AUTONOMOUS
-    }
+
     public static double Kp = 0;
     public static double Ki = 0;
     public static double Kd = 0;
     public double out;
-    private gameStages game;
-    public static int ampsTrigger = 10000000;
+    public static double armSpeed = .1;
+    public static double pauseTime = .1;
     private boolean teleOp;
     private double reference = 0;
     private double lastReference = reference;
@@ -43,7 +43,7 @@ public class Delivery extends Claw {
     private double derivative;
     private boolean direction;
     private Telemetry telemetry;
-    public Delivery(HardwareMap hardwareMap, gameStages mode, Telemetry telemetry) {
+    public Delivery(HardwareMap hardwareMap, Telemetry telemetry) {
         super(hardwareMap);
         this.telemetry = telemetry;
         claw = hardwareMap.get(Servo.class, RobotConstants.claw);
@@ -53,20 +53,32 @@ public class Delivery extends Claw {
         arm.setDirection(DcMotorEx.Direction.REVERSE);
         arm.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
-        teleOp = mode.equals(gameStages.TELE_OP);
-        if(!teleOp){
-            init();
-        }
+
 
     }
     public void init(){
-        arm.setPower(1);
+        arm.setPower(armSpeed);
         double currentCurrent = arm.getCurrent(CurrentUnit.MILLIAMPS);
         timer.reset();
-        while(arm.getCurrent(CurrentUnit.MILLIAMPS) < 6000){
-            telemetry.addData("MilliAmps", arm.getCurrent(CurrentUnit.MILLIAMPS));
+        boolean stopped = false;
+        while(true){
+            if(arm.getVelocity() == 0 && !stopped){
+                timer.reset();
+                stopped = true;
+            }
+            else if(arm.getVelocity() != 0){
+                stopped = false;
+            }
+            if(stopped){
+                if(timer.time(TimeUnit.SECONDS) > pauseTime){
+                    break;
+                }
+            }
+            telemetry.addLine("moving");
+            telemetry.addData("Velo", arm.getVelocity());
             telemetry.update();
         }
+        telemetry.clearAll();
         arm.setPower(0);
         arm.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         arm.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);

@@ -18,7 +18,7 @@ public class DeliveryTest extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        delivery = new Delivery(hardwareMap, Delivery.gameStages.AUTONOMOUS, telemetry);
+        delivery = new Delivery(hardwareMap, telemetry);
 
 
         waitForStart();
