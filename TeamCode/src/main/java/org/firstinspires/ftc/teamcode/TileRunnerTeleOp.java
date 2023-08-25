@@ -4,7 +4,6 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.robot.Robot;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
@@ -16,6 +15,15 @@ public class TileRunnerTeleOp extends LinearOpMode {
             OPEN,
             CLOSE
     };
+    private enum slideStates {
+        MOVE,
+        IDLE,
+        DELAY
+    }
+    private final int maxIndex = RobotConstants.slidePositions.length - 1;
+    private int currentPosition = 0;
+    private slideStates slide;
+    private boolean up = false;
     clawStates clawPosition = clawStates.OPEN;
     Claw claw;
     Lift lift;
@@ -28,13 +36,50 @@ public class TileRunnerTeleOp extends LinearOpMode {
         claw = new Claw(hardwareMap);
         lift = new Lift(hardwareMap);
         lift.init(); //remove this when we have an auto
+
         waitForStart();
         ElapsedTime timer = new ElapsedTime();
-        double currentTime = timer.time();
+        double clawTimer = timer.time();
         while(opModeIsActive()) {
+            switch (slide){
+                case IDLE:
+                    if(gamepad2.dpad_up){
+                        slide = slideStates.MOVE;
+                        currentPosition += 1;
+                        currentPosition = Math.min(currentPosition, maxIndex);
+                        up = true;
+                        break;
+                    }
+                    if(gamepad2.dpad_down){
+                        slide = slideStates.MOVE;
+                        currentPosition -= 1;
+                        currentPosition = Math.max(currentPosition,0);
+                        up = false;
+                        break;
+                    }
+                    break;
+                case MOVE:
+                    lift.setPosition(RobotConstants.slidePositions[currentPosition]);
+                    slide = slideStates.DELAY;
+                    break;
+                case DELAY:
+                    if(up){
+                        if(!gamepad2.dpad_up){
+                            slide = slideStates.IDLE;
+                            break;
+                        }
+                    }
+                    else{
+                        if(!gamepad2.dpad_down){
+                            slide = slideStates.IDLE;
+                            break;
+                        }
+                    }
+
+            }
             switch (clawPosition){
                 case OPEN:
-                    if(timer.time() - currentTime > .5){
+                    if(timer.time() - clawTimer > .5){
                         if(gamepad2.x){
                             clawPosition = clawStates.CLOSE;
                             break;
@@ -42,12 +87,12 @@ public class TileRunnerTeleOp extends LinearOpMode {
                     }
                     else if(claw.getPosition() != RobotConstants.clawOpenPos){
                         claw.open();
-                        currentTime =timer.time();
+                        clawTimer =timer.time();
                         break;
                     }
                     break;
                 case CLOSE:
-                    if(timer.time() - currentTime > .5){
+                    if(timer.time() - clawTimer > .5){
                         if(gamepad2.x){
                             clawPosition = clawStates.OPEN;
                             break;
@@ -55,7 +100,7 @@ public class TileRunnerTeleOp extends LinearOpMode {
                     }
                     else if(claw.getPosition() != RobotConstants.clawClosePos){
                         claw.close();
-                        currentTime =timer.time();
+                        clawTimer =timer.time();
                         break;
                     }
                     break;

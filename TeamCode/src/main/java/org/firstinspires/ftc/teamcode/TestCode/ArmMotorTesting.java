@@ -30,10 +30,10 @@ public class ArmMotorTesting extends LinearOpMode {
         waitForStart();
 
         while(opModeIsActive()) {
-            if(Math.abs(gamepad1.left_trigger) > 0){
+            if(Math.abs(gamepad1.left_trigger) > 0 || gamepad1.left_stick_y < 0){
                 arm.setPower(maxSpeed * -1);
             }
-            else if(Math.abs(gamepad1.right_trigger) > 0){
+            else if(Math.abs(gamepad1.right_trigger) > 0 || gamepad1.left_stick_y > 0){
                 arm.setPower(maxSpeed);
             }else{
                 arm.setPower(0);
