@@ -5,14 +5,16 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+import org.firstinspires.ftc.teamcode.Subsystems.Delivery;
 import org.firstinspires.ftc.teamcode.Subsystems.Lift;
 
-@Config
-@TeleOp(name = "Lift Tuning", group = "Tuning")
-public class LiftTuning extends LinearOpMode {
+@Config //Tune PIDF values of the Delivery class using the opmode
+@TeleOp(name = "Delivery Tuning", group = "Tuning")
+public class DeliveryTuning extends LinearOpMode {
 
-    Lift lift;
-    public static int target = 300;
+    Delivery delivery;
+    public static int target = 0;
 
 
     @Override
@@ -20,18 +22,19 @@ public class LiftTuning extends LinearOpMode {
         FtcDashboard dashboard = FtcDashboard.getInstance();
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        lift = new Lift(hardwareMap);
-        lift.init();
+        delivery = new Delivery(hardwareMap, telemetry);
+
+        delivery.init();
 
         waitForStart();
 
         while(opModeIsActive()){
-            lift.setPositionAndUpdate(target);
+            delivery.setPosition(target);
 
-            lift.setPosition(target);
-
-            telemetry.addData("position", lift.getPosition());
+            telemetry.addData("position", delivery.getPosition());
             telemetry.addData("target", target);
+
+            delivery.update();
             telemetry.update();
         }
 

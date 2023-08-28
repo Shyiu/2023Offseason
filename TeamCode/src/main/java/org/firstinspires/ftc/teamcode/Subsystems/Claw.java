@@ -23,9 +23,11 @@ public class Claw {
     public void move(double position){
         servo.setPosition(position);
     }
-    public double getPosition(){
+
+    public double getClawPosition() {
         return servo.getPosition();
     }
+
     public void reset() {
         open();
     }

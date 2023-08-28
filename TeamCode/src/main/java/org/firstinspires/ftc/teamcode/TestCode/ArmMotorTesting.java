@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.TestCode;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -10,6 +11,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.RobotConstants;
 import org.firstinspires.ftc.teamcode.Subsystems.Delivery;
+
+@Disabled
 @Config
 @TeleOp(name="Arm Debug", group="Test Code")
 public class ArmMotorTesting extends LinearOpMode {

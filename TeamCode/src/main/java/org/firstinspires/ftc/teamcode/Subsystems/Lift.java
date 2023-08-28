@@ -21,7 +21,7 @@ public class Lift {
     public static double Kd = 0;
     public static double Kg = 0;
     private static int targetPos;
-    private PIDFController PIDF;
+    private final PIDController PID;
 
     public Lift(HardwareMap hardwareMap) {
         leftMotor = hardwareMap.get(DcMotor.class, RobotConstants.leftSlide);
@@ -36,15 +36,14 @@ public class Lift {
 
         magnetSensor = hardwareMap.get(DigitalChannel.class, RobotConstants.magnetSensor);
         magnetSensor.setMode(DigitalChannel.Mode.INPUT);
-        PIDF = new PIDFController(Kp, Ki, Kd, Kg);
+        PID = new PIDController(Kp, Ki, Kd);
     }
     public boolean getMagnet(){
         return magnetSensor.getState();
     }
     public void init(){
-        leftMotor.setPower(-.05);
-        rightMotor.setPower(-.05);
-        while(magnetSensor.getState() == true){
+        this.setPower(-0.05-Kg);
+        while(this.getMagnet()){
             ;
         }
         this.setPower(0);
@@ -65,8 +64,8 @@ public class Lift {
             leftMotor.setPower(0);
             rightMotor.setPower(0);
         } else {
-            leftMotor.setPower(power);
-            rightMotor.setPower(power);
+            leftMotor.setPower(power+Kg);
+            rightMotor.setPower(power+Kg);
         }
     }
 
@@ -79,12 +78,10 @@ public class Lift {
         targetPos = position;
     }
     public void update(){
-        this.setPower(PIDF.update(targetPos, this.getPosition()));
+        this.setPower(PID.update(targetPos, this.getPosition()));
     }
     public void setPositionAndUpdate(int position){
-        this.setPower(PIDF.update(position, this.getPosition()));
+        this.setPower(PID.update(position, this.getPosition()));
     }
-
-
 
 }

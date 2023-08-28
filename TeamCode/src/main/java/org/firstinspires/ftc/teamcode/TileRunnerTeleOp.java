@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Subsystems.Lift;
 
-@TeleOp(name="Tele Op", group="Test Code")
+@TeleOp(name="TileRunner TeleOp", group="TeleOp")
 public class TileRunnerTeleOp extends LinearOpMode {
     private enum clawStates  {
             OPEN,
@@ -85,7 +85,7 @@ public class TileRunnerTeleOp extends LinearOpMode {
                             break;
                         }
                     }
-                    else if(claw.getPosition() != RobotConstants.clawOpenPos){
+                    else if(claw.getClawPosition() != RobotConstants.clawOpenPos){
                         claw.open();
                         clawTimer =timer.time();
                         break;
@@ -98,7 +98,7 @@ public class TileRunnerTeleOp extends LinearOpMode {
                             break;
                         }
                     }
-                    else if(claw.getPosition() != RobotConstants.clawClosePos){
+                    else if(claw.getClawPosition() != RobotConstants.clawClosePos){
                         claw.close();
                         clawTimer =timer.time();
                         break;
@@ -107,7 +107,7 @@ public class TileRunnerTeleOp extends LinearOpMode {
             }
 
             telemetry.addLine("right trigger to increase .1\nleft trigger to decrease .1\nright bumper to increase 0.01\nleft bumper to decrease 0.01\n");
-            telemetry.addData("Position", claw.getPosition());
+            telemetry.addData("Position", claw.getClawPosition());
             telemetry.update();
         }
     }

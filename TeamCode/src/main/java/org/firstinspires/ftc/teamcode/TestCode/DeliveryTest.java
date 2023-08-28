@@ -19,19 +19,20 @@ public class DeliveryTest extends LinearOpMode {
         telemetry.update();
 
         delivery = new Delivery(hardwareMap, telemetry);
+        delivery.init();
 
 
         waitForStart();
 
         while(opModeIsActive() && !isStopRequested()) {
 //            delivery.asyncMoveToPosition(1000);
-            delivery.init();
+            delivery.moveArm(-gamepad1.left_stick_y/2);
+
             telemetry.addData("Status", "Running");
-            telemetry.addData("Gamepad1 Left Stick y: ", -gamepad1.left_stick_x);
+            telemetry.addData("Position", delivery.getPosition());
+            telemetry.addData("Gamepad1 Left Stick y: ", -gamepad1.left_stick_y);
 
             telemetry.update();
-            break;
-
         }
     }
 }

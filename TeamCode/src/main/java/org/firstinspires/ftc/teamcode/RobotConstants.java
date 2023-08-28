@@ -15,8 +15,7 @@ final public class RobotConstants {
 
     //Delivery Hardware
     final public static String arm = "arm"; //CHub Motor Port: 1
-    final public static String claw = "claw"; //CHUB Servo Port:
-    final public static String pot = "pot"; //CUB Analog Port 0
+    final public static String claw = "claw"; //CHUB Servo Port: 5
 
 
     //Lift Constants --> Find through testing
@@ -29,8 +28,8 @@ final public class RobotConstants {
     final public static int highPosition = 0;
 
     //Claw Constants --> Find through testing
-    final public static double clawOpenPos = 0;
-    final public static double clawClosePos = 0.22;
+    final public static double clawOpenPos = 0.5;
+    final public static double clawClosePos = 0.2;
 
     //Delivery Constants --> Find through testing
     final public static int armMaxPos = 0;

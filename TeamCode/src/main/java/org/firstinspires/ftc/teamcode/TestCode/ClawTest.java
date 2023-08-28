@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Subsystems.Lift;
 
+@Disabled
 @TeleOp(name="Claw Test", group="Test Code")
 public class ClawTest extends LinearOpMode {
     private enum states  {
@@ -60,29 +61,29 @@ public class ClawTest extends LinearOpMode {
                     }
                     break;
                 case INCREMENT:
-                    claw.move(claw.getPosition() + .1);
+                    claw.move(claw.getClawPosition() + .1);
                     state = states.TIMER;
                     currentTime = timer.time();
                     break;
                 case DECREMENT:
-                    claw.move(claw.getPosition() - .1);
+                    claw.move(claw.getClawPosition() - .1);
                     state = states.TIMER;
                     currentTime = timer.time();
                     break;
                 case INCREMENT_SMALL:
-                    claw.move(claw.getPosition() + .01);
+                    claw.move(claw.getClawPosition() + .01);
                     state = states.TIMER;
                     currentTime = timer.time();
                     break;
                 case DECREMENT_SMALL:
-                    claw.move(claw.getPosition() - .01);
+                    claw.move(claw.getClawPosition() - .01);
                     state = states.TIMER;
                     currentTime = timer.time();
                     break;
             }
 
             telemetry.addLine("right trigger to increase .1\nleft trigger to decrease .1\nright bumper to increase 0.01\nleft bumper to decrease 0.01\n");
-            telemetry.addData("Position", claw.getPosition());
+            telemetry.addData("Position", claw.getClawPosition());
             telemetry.update();
         }
     }
